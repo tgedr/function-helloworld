@@ -13,6 +13,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
+    - name: check wget
+      run: which wget
+    - name: check curl
+      run: which curl
     - name: get timestamp
       id: timestamp
       run: echo "::set-output name=ts::$(date +'%y%m%d%H%M%S')"
