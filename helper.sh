@@ -13,8 +13,7 @@ parent_folder=$(dirname "$this_folder")
 _pwd=$(pwd)
 cd "$this_folder"
 url=$(curl -s https://api.github.com/repos/tgedr/bashutils/releases/latest | grep "browser_download_url.*utils\.tar\.bz2" | cut -d '"' -f 4)
-echo "url: $url"
-wget -qi "$url"
+curl "$url" -o utils.tar.bz2
 tar xjpvf utils.tar.bz2
 rm utils.tar.bz2
 . "$this_folder/bashutils.inc"
