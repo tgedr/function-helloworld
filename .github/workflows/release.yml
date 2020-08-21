@@ -1,0 +1,29 @@
+name: release
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: get timestamp
+      id: timestamp
+      run: echo "::set-output name=ts::$(date +'%y%m%d%H%M%S')"
+    - name: zip function
+      run: ./helper.sh zip_js_lambda_function . helloworld.zip index.js
+    - name: create release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: helloworld.zip
+        tag: helloworld-${{ steps.timestamp.outputs.ts }}
+        asset_name: helloworld.zip
+        overwrite: true
+
